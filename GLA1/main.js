@@ -90,24 +90,28 @@ input is not a number, set the input box’s borders to color #D40404.*/
     function validInputs(N1, N2, result){
         //N1 - INPUT1 - ElementID I1
         //N1 - INPUT2 - ElementID I2
-
+        let valid = true;
         if (isNaN(parseFloat(N1.value))){
             N1.style.borderColor = "#D40404";
             result.textContent = "Number 1 is invalid!";
-            return false;
-        } else {
-            N1.style.borderColor = "black";
-        }
+            valid = false;
+        } 
 
         if (isNaN(parseFloat(N2.value))){
             N2.style.borderColor = "#D40404";
             result.textContent = "Number 2 is invalid!";
-            return false;
-        } else {
+            valid = false;
+        } 
+
+        if (valid) {
+            N1.style.borderColor = "black";
             N2.style.borderColor = "black";
+            result.style.color = "#2694C3";
+        } else {
+            result.style.color = "#D40404";
         }
 
-        return true;
+        return valid;
     }
 
 //5. Add style to at least two other elements in your page.
@@ -124,5 +128,7 @@ input is not a number, set the input box’s borders to color #D40404.*/
     input2.style.borderRadius = "5px";
     input2.style.padding = "10px";
     input2.style.textAlign = "right";
+
+    resultH2.style.color = "#2694C3";
 
 
