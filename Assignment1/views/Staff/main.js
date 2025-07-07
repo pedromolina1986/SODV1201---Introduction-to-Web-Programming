@@ -1,3 +1,5 @@
+//START - MAIN PROGRAM
+
 function showStaff(){    
     const dataSet = GetStaff();   
     
@@ -57,6 +59,10 @@ function showStaff(){
     rootElement.appendChild(table); // Append the table to the root element
 }
 
+//END - MAIN PROGRAM
+
+// START - AUX FUNCTIONS
+
 function sortStaffTable(table, columnName, sortType) {    
     const rows = Array.from(table.rows).slice(1); // Exclude header row
     
@@ -92,3 +98,5 @@ function sortStaffTable(table, columnName, sortType) {
         table.appendChild(row);
     });
 }
+
+//END - AUX FUNCTIONS
