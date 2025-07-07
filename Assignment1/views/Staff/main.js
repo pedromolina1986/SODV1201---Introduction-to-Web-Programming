@@ -1,19 +1,40 @@
 function showStaff(){    
-    var dataSet = GetStaff();   
+    const dataSet = GetStaff();   
     
     //create a table element
-    var table = document.createElement("table");
+    const table = document.createElement("table");
     table.setAttribute("id", "staff-table");    
     table.setAttribute("class", "table table-striped table-bordered");
 
     //create a header row
-    var headerRow = document.createElement("tr");
-    var headers = ["Name", "Position", "Office", "Extension", "Start Date", "Salary"];
+    const headerRow = document.createElement("tr");
+    const headers = ["Name", "Position", "Office", "Extension", "Start Date", "Salary"];
     headers.forEach(function(header) {      
         var th = document.createElement("th");
-        th.textContent = header;
+        th.textContent = header + " (-)";
+        th.attributes["sortType"] = "none";
         th.addEventListener("click", function() {
-            sortStaffTable(table, header);   
+            // Determine the current sort type
+            let currentSort = this.getAttribute("sortType");
+
+            //clear the sort type from all headers
+            Array.from(headerRow.children).forEach(function(headerCell) {
+                headerCell.setAttribute("sortType", "none");
+                headerCell.textContent = headerCell.textContent.replace(/ \((↑|↓|-)\)/, ""); // Remove any existing arrow
+            });            
+            
+            // Toggle the sort type
+            let newSort = (currentSort === "none" || currentSort === "desc") ? "asc" : "desc";
+            this.setAttribute("sortType", newSort);
+
+            // Update the header text with the appropriate arrow
+            let text = this.textContent.replace(/ \((↑|↓|-)\)/, ""); // Remove any existing arrow
+            text += newSort === "asc" ? " (↑)" : " (↓)";
+            this.textContent = text;
+
+            const columnNameToSort = this.textContent.slice(0, -4); // Remove the srot type from the text"                        
+            // Call sorting function
+            sortStaffTable(table, columnNameToSort, newSort);
         });        
         headerRow.appendChild(th);
     });
@@ -21,7 +42,7 @@ function showStaff(){
 
     //populate the table with data
     dataSet.forEach(function(staff) {   
-        var row = document.createElement("tr");
+        const row = document.createElement("tr");
         Object.values(staff).forEach(function(value) {
             var td = document.createElement("td");
             td.textContent = value;
@@ -36,14 +57,23 @@ function showStaff(){
     rootElement.appendChild(table); // Append the table to the root element
 }
 
-function sortStaffTable(table, columnName) {    
-    var rows = Array.from(table.rows).slice(1); // Exclude header row
-    var index = Array.from(table.rows[0].cells).findIndex(cell => cell.textContent === columnName);
+function sortStaffTable(table, columnName, sortType) {    
+    const rows = Array.from(table.rows).slice(1); // Exclude header row
     
+    // Find the index of the column to sort
+    const index = Array.from(table.rows[0].cells).findIndex(cell =>
+        cell.textContent.includes(columnName.trim())
+    ); 
+   
     // Sort rows based on the specified column
     rows.sort(function(a, b) {
-        var cellA = a.cells[index].textContent;
-        var cellB = b.cells[index].textContent;
+        if (sortType === "asc") {
+            const temp = a;
+            a = b;
+            b = temp;
+        }
+        const cellA = a.cells[index].textContent;
+        const cellB = b.cells[index].textContent;
         
         if (columnName === "Salary") {
             return parseFloat(cellA.replace(/[$,]/g, "")) - parseFloat(cellB.replace(/[$,]/g, ""));

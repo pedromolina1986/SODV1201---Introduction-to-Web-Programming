@@ -1,5 +1,5 @@
 function GetStaff(){
-    var dataSet = [
+    const dataSet = [
         { name: "Brielle Williamson", position: "Integration Specialist", office: "New York", extension: "4804", startDate: "2012/12/02", salary: "$372,000" },
         { name: "Herrod Chandler", position: "Sales Assistant", office: "San Francisco", extension: "9608", startDate: "2012/08/06", salary: "$137,500" },
         { name: "Rhona Davidson", position: "Integration Specialist", office: "Tokyo", extension: "6200", startDate: "2010/10/14", salary: "$327,900" },
