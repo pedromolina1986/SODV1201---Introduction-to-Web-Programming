@@ -22,7 +22,7 @@ function footer() {
 function mainContent() {
     return (
         `<main id="main-content">
-            <h1>HOME</h1>
+            <h1 id="home">HOME</h1>
             <p>This is the main content area.</p>            
             <p>This is the second paragraph.</p>            
         </main>`
@@ -51,12 +51,15 @@ function goHome() {
 
 function delayedImage() {
     setTimeout(() => {    
-        const imgDelayed = "https://a1cf74336522e87f135f-2f21ace9a6cf0052456644b80fa06d4f.ssl.cf2.rackcdn.com/images/characters/large/800/Homer-Simpson.The-Simpsons.webp";
-        const imgElement = document.createElement("img");
-        imgElement.alt = "Homer Simpson";    
-        const mainContent = document.getElementById("main-content");
-        mainContent.appendChild(imgElement); // Append the image to the main element
-        imgElement.src = imgDelayed;
+        // Check if the element with id "home" exists before appending the image
+        if (document.getElementById("home")) {
+            const imgDelayed = "https://a1cf74336522e87f135f-2f21ace9a6cf0052456644b80fa06d4f.ssl.cf2.rackcdn.com/images/characters/large/800/Homer-Simpson.The-Simpsons.webp";
+            const imgElement = document.createElement("img");
+            imgElement.alt = "Homer Simpson";    
+            const mainContent = document.getElementById("main-content");
+            mainContent.appendChild(imgElement); // Append the image to the main element
+            imgElement.src = imgDelayed;
+        } 
     }, 10000); // 10 seconds delay
     return "";
 }
