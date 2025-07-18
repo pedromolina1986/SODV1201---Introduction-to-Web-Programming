@@ -1,3 +1,4 @@
+//Start of GLA2_PEDRO_467777.js
 /*
 TASKS
 
@@ -84,3 +85,49 @@ const flattenedArray = multiDimensionalArray.reduce((accumulator, currentValue) 
 }, []);
 console.log("multiDimensionalArray", multiDimensionalArray);
 console.log("3.c)", flattenedArray); 
+
+/*
+Consider the following array:
+[ { name: "Alice Johnson", program: "Rocket Science", GPA: "3.75" }, { name: "Brian Smith",
+program: "Rocket Science", GPA: "3.89" }, { name: "Chloe Brown", program: "Rocket Science",
+GPA: "3.63" }, { name: "David Lee", program: "Rocket Science", GPA: "3.94" }, { name: "Ella
+White", program: "Rocket Science", GPA: "3.47" }, { name: "Finn Walker", program: "Rocket
+Science", GPA: "3.71" }, { name: "Grace Hall", program: "Rocket Science", GPA: "3.99" }, { name:
+"Henry Adams", program: "Rocket Science", GPA: "3.54" }, { name: "Isla Carter", program:
+"Rocket Science", GPA: "3.68" }, { name: "Jack Moore", program: "Rocket Science", GPA: "3.85"
+} ]
+It is a list of 10 students with the following properties: “name”, “program”, and “GPA”.
+*/
+const students = [
+    { name: "Alice Johnson", program: "Rocket Science", GPA: "3.75" },
+    { name: "Brian Smith", program: "Rocket Science", GPA: "3.89" },
+    { name: "Chloe Brown", program: "Rocket Science", GPA: "3.63" },
+    { name: "David Lee", program: "Rocket Science", GPA: "3.94" },
+    { name: "Ella White", program: "Rocket Science", GPA: "3.47" },
+    { name: "Finn Walker", program: "Rocket Science", GPA: "3.71" },
+    { name: "Grace Hall", program: "Rocket Science", GPA: "3.99" },
+    { name: "Henry Adams", program: "Rocket Science", GPA: "3.54" },
+    { name: "Isla Carter", program: "Rocket Science", GPA: "3.68" },
+    { name: "Jack Moore", program: "Rocket Science", GPA: "3.85" }
+];
+
+/*
+4) Without modifying the original array, sort the elements according to the students’ GPA in
+descending order (higher GPA first) and add a new property “status” to all of the students,
+with the value “active”. ( /15 marks)
+After the modifications, display both your original students array and the final updated array on
+console. ( /3 marks)
+Modified student example:
+{
+name: “Will”,
+program: “Rocket Science”,
+GPA: “4.0”,
+status: “active”
+}
+*/
+const sortedStudents = students
+    .map(student => ({ ...student, status: "active" }))
+    .sort((a, b) => parseFloat(b.GPA) - parseFloat(a.GPA));
+console.log("4)", sortedStudents);
+console.log("Original students array:", students);
+// End of GLA2_PEDRO_467777.js
