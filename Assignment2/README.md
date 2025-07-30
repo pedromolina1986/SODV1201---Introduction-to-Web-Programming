@@ -7,6 +7,7 @@ Date: 2025-07-30
     
     Packages: npm, express and axios.
         Installation following this order:
+        node: install node 22.17.0 or higher
         npm: npm init -y
         express: rootpath/ npm install express 
         axios: rootpath/ npm install axios
