@@ -1,0 +1,18 @@
+{
+  "name": "assignment2",
+  "version": "1.0.0",
+  "description": "https://www.weatherapi.com/docs/\r https://app.swaggerhub.com/apis-docs/WeatherAPI.com/WeatherAPI/1.0.2\r https://www.weatherapi.com/api-explorer.aspx",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "axios": "^1.11.0",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0"
+  }
+}
