@@ -27,9 +27,11 @@ Date: 2025-07-30
 Pleas insert a .env file in the roothpath called .env with the following constants
 
 WEATHER_API_KEY= {YOUR KEY}
+
 WEATHER_API_BASEURL=http://api.weatherapi.com/v1
 
 CURRENCY_API_KEY= {YOUR KEY}
+
 CURRENCY_API_BASEURL=http://api.weatherapi.com/v1
 
 You can generate your key int following the documentation of each API
