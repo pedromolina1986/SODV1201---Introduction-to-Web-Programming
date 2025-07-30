@@ -55,7 +55,7 @@ const PORT = 3000;
 let cachedCurrencies = null;
 
 app.get('/', async (req, res) => {
-    try {
+    try {        
         if (!cachedCurrencies) {
             //get currencies from api
             const url = `${process.env.CURRENCY_API_BASEURL}/currencies?apikey=${process.env.CURRENCY_API_KEY}`;
@@ -111,15 +111,10 @@ app.get('/weather', async (req, res) => {
         const response = await axios.get(url);
         const data = response.data;
         
-        res.send(`
-            <div class="p-4 border rounded bg-blue-50">
-                <p><strong>Location:</strong> ${data.location.name}, ${data.location.country}</p>
-                <p><strong>Temperature:</strong> ${data.current.temp_c} °C</p>
-                <p><strong>Condition:</strong> ${data.current.condition.text}</p>
-            </div>
-        `);
+        res.json(data);
+
     } catch (err) {
-        res.send(`<p>Error fetching weather for "${city}": ${err.response?.data?.message || err.message}</p><a href="/">Try again</a>`);
+        res.status(401).json({ Error: err.response?.data?.message || err.message });
     }
 });
 
@@ -134,13 +129,10 @@ app.get('/currency', async (req, res) => {
         const response = await axios.get(url);
         const data = response.data.data;
 
-        res.send(`
-            <div class="p-4 border rounded bg-green-50">
-                <p><strong>${currency_from}</strong> ➡️ <strong>${currency_to}</strong> = ${data[currency_to]}</p>
-            </div>
-        `);
+        res.json(data);
+
     } catch (err) {
-        res.send(`<p>Error fetching currency": ${err.response?.data?.message || err.message}</p><a href="/">Try again</a>`);
+        res.status(401).json({ Error: err.response?.data?.message || err.message });
     }
 });
 

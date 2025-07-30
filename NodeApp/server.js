@@ -23,7 +23,7 @@ const data = [];
 
 app.get('/items', (req, res) => {
     console.log("All items:\n", data);
-    return res,json(data);
+    return res.json(data);
 });
 
 app.post('/items', (req, res) => {
