@@ -1,0 +1,76 @@
+<!-- 
+ REFERENCES: WHEATHER AND CURRENCY TITLE FROM CHATGPT prompt 
+ Weather - generate an h1 with a sun and the text Wather App
+ Currency - generate an h1 with for a currency quotation app
+ 
+-->
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather & Currency App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/scripts/weather.js" defer></script>
+  <script src="/scripts/currency.js" defer></script>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center text-gray-800 p-6">
+
+  <!-- WEATHER APP -->
+  <div class="max-w-xl w-full bg-white rounded-lg shadow-md p-6 mb-6">
+    <h1 class="flex items-center text-2xl font-bold text-yellow-500 mb-4 gap-2">
+      <!-- Sun Icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10 15a5 5 0 100-10 5 5 0 000 10zm0 2a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm0-14a1 1 0 011-1v0a1 1 0 10-2 0v0a1 1 0 011 1zm8 7a1 1 0 100 2h1a1 1 0 100-2h-1zM2 10a1 1 0 100 2H1a1 1 0 100-2h1zm14.071-5.071a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM5.05 15.536a1 1 0 00-1.415-1.415l-.707.707a1 1 0 101.415 1.415l.707-.707zM15.536 14.95a1 1 0 011.414-1.414l.707.707a1 1 0 11-1.414 1.414l-.707-.707zM5.05 4.464a1 1 0 10-1.415 1.415l.707.707a1 1 0 101.415-1.415l-.707-.707z" />
+      </svg>
+      Weather
+    </h1>
+    <form id="weatherForm" class="flex flex-col gap-4">
+      <input 
+        type="text" 
+        name="city" 
+        id="cityInput"
+        placeholder="Enter city"
+        required
+        class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+      />
+      <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+        Get Weather
+      </button>
+    </form>
+    <div id="weatherResult" class="mt-4 text-sm text-gray-700"></div>
+  </div>
+
+  <!-- CURRENCY APP -->
+  <div class="max-w-xl w-full bg-white rounded-lg shadow-md p-6">
+    <h1 class="flex items-center text-2xl font-bold text-green-600 mb-4 gap-2">
+      <!-- Currency Icon (Dollar Sign) -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-10v2m0 10v2" />
+      </svg>
+      Currency Quotation
+    </h1>
+    <form id="currencyForm" class="flex flex-col gap-4">
+      <div class="flex gap-2">
+        <div class="flex-1">
+          <label class="block text-sm font-medium mb-1" for="currency_from">From</label>
+          <select name="currency_from" id="currency_from" class="w-full px-4 py-2 border rounded">
+            <!-- Injected by server -->
+          </select>
+        </div>
+        <div class="flex-1">
+          <label class="block text-sm font-medium mb-1" for="currency_to">To</label>
+          <select name="currency_to" id="currency_to" class="w-full px-4 py-2 border rounded">
+            <!-- Injected by server -->
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">
+        Get Currency
+      </button>
+    </form>
+    <div id="currencyResult" class="mt-4 text-sm text-gray-700"></div>
+  </div>
+</body>
+</html>

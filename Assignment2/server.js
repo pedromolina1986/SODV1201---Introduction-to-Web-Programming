@@ -1,4 +1,31 @@
+/*
+SODV1201 - INTRODUTCION TO WEB DEVELOPMENT
+Assignment 2
+Student: Pedro Molina - 467777
+Date: 2025-07-30
+
+Instructions: 
+    To Execute: Go to the root path of the project and then execute on terminal node server.js
+    Packages: npm, express and axios.
+        Installation following this order:
+        npm: npm init -y
+        express: rootpath/ npm install express 
+        axios: rootpath/ npm install axios
+    
+References: 
+    Chatgpt: To understand WHY axios is better than fetch and to generate H1 element with images.
+    Style: https://tailwindcss.com
+
+Observations:
+    1 - Created a Tailwind-styled page to provide a polished user experience.
+    2 - Built server-side services that dynamically inject HTML into index.html for smooth user flow.
+    3 - Implemented local storage caching for currencies to prevent redundant API calls.
+*/
+
+
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 
 //makes life easier for api handling :)
 /*
@@ -25,66 +52,52 @@ const app = express();
 const PORT = 3000;
 
 // server-side cache
-let cachedCurrencies = null; 
+let cachedCurrencies = null;
 
-// Serve static HTML form
 app.get('/', async (req, res) => {
-  try {
-    let selectOption = () => '';
+    try {
+        if (!cachedCurrencies) {
+            //get currencies from api
+            const url = `${process.env.CURRENCY_API_BASEURL}/currencies?apikey=${process.env.CURRENCY_API_KEY}`;
+            const response = await axios.get(url);
+            const currencies = response.data.data;
 
-    if (!cachedCurrencies) {
-      // Fetch from API
-      const url = `${process.env.CURRENCY_API_BASEURL}/currencies?apikey=${process.env.CURRENCY_API_KEY}`;
-      const response = await axios.get(url);
-      const currencies = response.data.data;
-      // cache for future use
-      cachedCurrencies = currencies; 
+            // Turn into sortable array
+            const listOfCurrencies = Object.entries(currencies).map(([code, data]) => ({
+                code,
+                name: data.name,
+                symbol: data.symbol,
+            }));
+
+            // Sort alphabetically by name
+            listOfCurrencies.sort((a, b) => a.name.localeCompare(b.name));
+
+            cachedCurrencies = listOfCurrencies;
+        }
+
+        //build currency options for the select elements
+        const buildOptions = () => {
+            let options = "";
+            for (const currency of cachedCurrencies) {
+                options += `<option value="${currency.code}">${currency.name} (${currency.symbol})</option>`;
+            }
+            return options;
+        };
+        
+        //INJECTION ON HTML WITH THE CURRENCY OPTIONS
+        const html = fs.readFileSync(path.join(__dirname, 'public', 'index.html'), 'utf-8')
+            .replace('<select name="currency_from" id="currency_from" class="w-full px-4 py-2 border rounded">',
+                `<select name="currency_from" id="currency_from" class="w-full px-4 py-2 border rounded">${buildOptions()}`)
+            .replace('<select name="currency_to" id="currency_to" class="w-full px-4 py-2 border rounded">',
+                `<select name="currency_to" id="currency_to" class="w-full px-4 py-2 border rounded">${buildOptions()}`);
+
+        res.send(html);
+
+    } catch (err) {
+        res.send(`<p>Error loading currencies: ${err.message}</p><a href="/">Try again</a>`);
     }
-
-    // Function to generate <option> elements from currencies
-    selectOption = () => {
-      const currencies = cachedCurrencies;
-      let options = '';
-
-      // Turn into sortable array
-      const listOfCurrencies = Object.entries(currencies).map(([code, data]) => ({
-        code,
-        name: data.name,
-        symbol: data.symbol,
-      }));
-
-      // Sort alphabetically by name
-      listOfCurrencies.sort((a, b) => a.name.localeCompare(b.name));
-
-      // Create options
-      for (const currency of listOfCurrencies) {
-        options += `<option value="${currency.code}">${currency.name} (${currency.symbol})</option>`;
-      }
-
-      return options;
-    };
-
-    // Render page
-    res.send(`
-      <h1>Weather App</h1>
-      <form action="/weather" method="get">
-        <input type="text" name="city" placeholder="Enter city" required />
-        <button type="submit">Get Weather</button>
-      </form>
-
-      <h1>Currency App</h1>
-      <form action="/currency" method="get">
-        <label for="currency_from">Currency from</label>
-        <select name="currency_from">${selectOption()}</select>            
-        <label for="currency_to">to</label>
-        <select name="currency_to">${selectOption()}</select>            
-        <button type="submit">Get Currency</button>
-      </form>
-    `);
-  } catch (err) {
-    res.send(`<p>Error fetching currencies: ${err.response?.data?.message || err.message}</p><a href="/">Try again</a>`);
-  }
 });
+
 
 // Handle weather API call
 app.get('/weather', async (req, res) => {
@@ -97,12 +110,13 @@ app.get('/weather', async (req, res) => {
         const url = `${process.env.WEATHER_API_BASEURL}/current.json?q=${encodeURIComponent(city)}&aqi=no&key=${apiKey}`;
         const response = await axios.get(url);
         const data = response.data;
-
+        
         res.send(`
-            <h2>Weather in ${data.location.name} - ${data.location.region} - ${data.location.country} - ${data.location.localtime}</h2>
-            <p><strong>Temperature:</strong> ${data.current.temp_c} °C</p>
-            <p><strong>Condition:</strong> ${data.current.condition.text}</p>
-            <a href="/">Search again</a>
+            <div class="p-4 border rounded bg-blue-50">
+                <p><strong>Location:</strong> ${data.location.name}, ${data.location.country}</p>
+                <p><strong>Temperature:</strong> ${data.current.temp_c} °C</p>
+                <p><strong>Condition:</strong> ${data.current.condition.text}</p>
+            </div>
         `);
     } catch (err) {
         res.send(`<p>Error fetching weather for "${city}": ${err.response?.data?.message || err.message}</p><a href="/">Try again</a>`);
@@ -121,13 +135,16 @@ app.get('/currency', async (req, res) => {
         const data = response.data.data;
 
         res.send(`
-            <h2>Currency of ${currency_from} => ${currency_to} = ${data[currency_to]}</h2>      
-            <a href="/">Search again</a>
+            <div class="p-4 border rounded bg-green-50">
+                <p><strong>${currency_from}</strong> ➡️ <strong>${currency_to}</strong> = ${data[currency_to]}</p>
+            </div>
         `);
     } catch (err) {
         res.send(`<p>Error fetching currency": ${err.response?.data?.message || err.message}</p><a href="/">Try again</a>`);
     }
 });
+
+app.use(express.static('public'));
 
 //http server
 app.listen(PORT, () => {
