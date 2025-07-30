@@ -23,6 +23,15 @@ Date: 2025-07-30
     2 - Built server-side services that dynamically inject HTML into index.html for smooth user flow.
     3 - Implemented local storage caching for currencies to prevent redundant API calls.
 
+# .env
+Pleas insert a .env file in the roothpath called .env with the following constants
+WEATHER_API_KEY= {YOUR KEY}
+WEATHER_API_BASEURL=http://api.weatherapi.com/v1
+
+CURRENCY_API_KEY= {YOUR KEY}
+CURRENCY_API_BASEURL=http://api.weatherapi.com/v1
+
+You can generate your key int following the documentation of each API
 
 # WATHER API DOCUMENTATION
 https://www.weatherapi.com/docs/
@@ -32,5 +41,4 @@ https://www.weatherapi.com/api-explorer.aspx
 # CURRENCY API
 https://freecurrencyapi.com/
 https://freecurrencyapi.com/docs
-
 
