@@ -25,6 +25,7 @@ Date: 2025-07-30
 
 # .env
 Pleas insert a .env file in the roothpath called .env with the following constants
+
 WEATHER_API_KEY= {YOUR KEY}
 WEATHER_API_BASEURL=http://api.weatherapi.com/v1
 
