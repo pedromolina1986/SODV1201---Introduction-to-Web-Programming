@@ -3,7 +3,7 @@ Assignment 2
 Student: Pedro Molina - 467777
 Date: 2025-07-30
 
-Instructions:     
+# Instructions:     
     
     Packages: npm, express and axios.
         Installation following this order:
@@ -13,11 +13,11 @@ Instructions:
     
     To Execute: AFTER packages installation go to the root path of the project and then execute on terminal node server.js and open the browser on http://localhost:3000
     
-References: 
+# References: 
     Chatgpt: To understand WHY axios is better than fetch and to generate H1 element with images.
     Style: https://tailwindcss.com
 
-Observations:
+# Observations:
     1 - Created a Tailwind-styled page to provide a polished user experience.
     2 - Built server-side services that dynamically inject HTML into index.html for smooth user flow.
     3 - Implemented local storage caching for currencies to prevent redundant API calls.
